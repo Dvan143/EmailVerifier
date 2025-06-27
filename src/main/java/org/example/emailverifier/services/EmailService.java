@@ -1,5 +1,6 @@
 package org.example.emailverifier.services;
 
+import org.example.emailverifier.logging.Loggable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -14,6 +15,7 @@ public class EmailService {
     @Autowired
     JavaMailSender sender;
 
+    @Loggable
     public void send(String to, String code) throws MailException {
         String text = "Enter this code to verify your account: ";
         SimpleMailMessage message = new SimpleMailMessage();
