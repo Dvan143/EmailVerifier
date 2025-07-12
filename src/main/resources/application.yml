@@ -1,9 +1,12 @@
 spring:
   mail:
     host: ${SMTP_HOST}
+    port: ${SMTP_PORT}
     username: ${SMTP_LOGIN}
     password: ${SMTP_PASSWORD}
-    port: ${SMTP_PORT}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: false
 
   rabbitmq:
     host: ${RABBITMQ_HOST}
