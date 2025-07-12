@@ -17,12 +17,12 @@ public class EmailService {
 
     @Loggable
     public void send(String to, String code) throws MailException {
-        String text = "Enter this code to verify your account: ";
+        String text = "Secret code from SocialMedia: ";
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(to);
         message.setFrom(from);
-        message.setSubject("Verify Code");
+        message.setSubject("SocialMedia's Secret Code");
         message.setText(text+code);
 
         sender.send(message);
