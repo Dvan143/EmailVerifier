@@ -23,4 +23,9 @@ public class MqService {
 
         emailService.send(to,secretCode);
     }
+
+    @RabbitListener(queues = "email-queue-v2")
+    public void sendMail(MetaInfoDto metaInfoDto){
+        emailService.send(metaInfoDto.getTo(), metaInfoDto.getSecretCode(), metaInfoDto.getProjectName(), metaInfoDto.getSenderUsername(), metaInfoDto.getSenderIp());
+    }
 }

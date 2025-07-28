@@ -12,6 +12,10 @@ public class MqConfig {
     Queue queue(){
         return new Queue("email-queue", false);
     }
+    @Bean
+    Queue queue2(){
+        return new Queue("email-queue-v2", false);
+    }
 
     @Bean
     Exchange exchange(){
@@ -21,6 +25,11 @@ public class MqConfig {
     @Bean
     Binding binder(Queue queue, Exchange exchange){
         return BindingBuilder.bind(queue).to(exchange).with("to.emailService").noargs();
+    }
+
+    @Bean
+    Binding binder2(Queue queue2, Exchange exchange){
+        return BindingBuilder.bind(queue2).to(exchange).with("to.emailService.v2").noargs();
     }
 
     @Bean

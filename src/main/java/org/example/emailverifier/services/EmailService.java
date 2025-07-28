@@ -27,4 +27,23 @@ public class EmailService {
 
         sender.send(message);
     }
+    @Loggable
+    public void send(String to, String code, String projectName, String senderUsername, String senderIp) throws MailException {
+        // Generating text with fetched data
+        StringBuilder sb = new StringBuilder();
+        sb.append("Hello, ").append(senderUsername)
+                .append("Secret code from ").append(projectName)
+                .append(": ").append(code)
+                .append("from ip address: ").append(senderIp);
+
+        String text = sb.toString();
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setFrom(from);
+        message.setSubject(projectName + "'s Secret Code");
+        message.setText(text);
+
+        sender.send(message);
+    }
 }
