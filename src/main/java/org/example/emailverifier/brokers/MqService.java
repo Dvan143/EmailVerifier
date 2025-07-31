@@ -12,7 +12,6 @@ public class MqService {
     @Autowired
     EmailService emailService;
 
-    // TODO receiver
     @Loggable
     @LoggableException
     @RabbitListener(queues = "email-queue")
@@ -24,8 +23,10 @@ public class MqService {
         emailService.send(to,secretCode);
     }
 
+    @Loggable
+    @LoggableException
     @RabbitListener(queues = "email-queue-v2")
     public void sendMail(MetaInfoDto metaInfoDto){
-        emailService.send(metaInfoDto.getTo(), metaInfoDto.getSecretCode(), metaInfoDto.getProjectName(), metaInfoDto.getSenderUsername(), metaInfoDto.getSenderIp());
+        emailService.send(metaInfoDto.getTo(), metaInfoDto.getSecretCode(), metaInfoDto.getProjectName(), metaInfoDto.getSenderUsername());
     }
 }

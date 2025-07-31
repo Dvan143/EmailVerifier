@@ -1,6 +1,8 @@
 package org.example.emailverifier.services;
 
 import org.example.emailverifier.logging.Loggable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -15,8 +17,10 @@ public class EmailService {
     @Autowired
     JavaMailSender sender;
 
+    private static Logger log = LoggerFactory.getLogger(EmailService.class);
+
     @Loggable
-    public void send(String to, String code) throws MailException {
+    public void send(String to, String code){
         String text = "Secret code from SocialMedia: ";
         SimpleMailMessage message = new SimpleMailMessage();
 
@@ -25,16 +29,20 @@ public class EmailService {
         message.setSubject("SocialMedia's Secret Code");
         message.setText(text+code);
 
-        sender.send(message);
+        try{
+            sender.send(message);
+        } catch (MailException ex) {
+            log.error("User entered email that does not exist.");
+        }
     }
     @Loggable
-    public void send(String to, String code, String projectName, String senderUsername, String senderIp) throws MailException {
+    public void send(String to, String code, String projectName, String senderUsername) throws MailException {
         // Generating text with fetched data
         StringBuilder sb = new StringBuilder();
         sb.append("Hello, ").append(senderUsername)
-                .append("Secret code from ").append(projectName)
+                .append("! Secret code from ").append(projectName)
                 .append(": ").append(code)
-                .append("from ip address: ").append(senderIp);
+                .append("");
 
         String text = sb.toString();
 
@@ -44,6 +52,10 @@ public class EmailService {
         message.setSubject(projectName + "'s Secret Code");
         message.setText(text);
 
-        sender.send(message);
+        try{
+            sender.send(message);
+        } catch (MailException ex) {
+            log.error("User {} entered email {} that does not exist.", senderUsername, to);
+        }
     }
 }
